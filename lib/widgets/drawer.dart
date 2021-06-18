@@ -11,7 +11,6 @@ class MyDrawer extends StatelessWidget {
           topRight: Radius.circular(30), bottomRight: Radius.circular(30),
         ),
 
-
       child: Drawer(
         child: Container(
           color: Colors.deepPurple,
