@@ -8,8 +8,10 @@ class MyDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(35), bottomRight: Radius.circular(35)),
-          
+          topRight: Radius.circular(30), bottomRight: Radius.circular(30),
+        ),
+
+
       child: Drawer(
         child: Container(
           color: Colors.deepPurple,
@@ -47,6 +49,13 @@ class MyDrawer extends StatelessWidget {
                 ListTile(
                 leading:Icon(CupertinoIcons.mail,color:Colors.white),
                 title: Text("Email me",textScaleFactor: 1.5,style:TextStyle(
+                  color: Colors.white,
+                  
+                ))
+              ),
+               ListTile(
+                leading:Icon(CupertinoIcons.gobackward,color:Colors.white),
+                title: Text("Logout",textScaleFactor: 1.5,style:TextStyle(
                   color: Colors.white,
                   
                 ))
