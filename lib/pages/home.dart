@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application/pages/detail.dart';
 import 'package:flutter_application/widgets/drawer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'package:flutter_application/models/catalog.dart';
-import 'package:flutter_application/widgets/drawer.dart';
-// import 'package:flutter_application/widgets/item_widget.dart';
 import 'package:flutter_application/widgets/themes.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     var catalogJson = await rootBundle.loadString("assets/files/catalog.json");
     var decodedData = jsonDecode(catalogJson);
     var productsData = decodedData["products"];
-    print(productsData);
+    
 
     CatalogModel.items = List.from(productsData)
         .map<Item>((item) => Item.fromMap(item))
@@ -39,6 +38,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyTheme.creamColor,
       drawer: MyDrawer(),
         body: SafeArea(
       child: Container(
@@ -50,9 +50,8 @@ class _HomePageState extends State<HomePage> {
             if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
               CatalogList().expand()
             else
-              Center(
-                child: CircularProgressIndicator(),
-              ),
+            CircularProgressIndicator().centered().expand()
+              
           ],
         ),
       ),
@@ -68,7 +67,7 @@ class CatalogHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        "Catalog App".text.xl5.bold.color(MyTheme.darkBluishColor).make(),
+        "Gadgets India".text.xl5.bold.color(MyTheme.darkBluishColor).make(),
         "Trending products".text.xl2.make()
       ],
     );
@@ -85,7 +84,9 @@ class CatalogList extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         final catalog = CatalogModel.items[index];
-        return CatalogItem(catalog: catalog);
+        return InkWell(onTap: () =>
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage(catalog: catalog))),
+          child: CatalogItem(catalog: catalog));
       },
     );
   }
@@ -104,14 +105,18 @@ class CatalogItem extends StatelessWidget {
     return VxBox(
         child: Row(
       children: [
-        Image.network(catalog.image)
-            .box
-            .p8
-            .rounded
-            .color(MyTheme.creamColor)
-            .make()
-            .p16()
-            .w40(context),
+        Hero(
+           
+          tag: Key(catalog.id.toString()),
+          child: Image.network(catalog.image)
+              .box
+              .p8
+              .rounded
+              .color(MyTheme.creamColor)
+              .make()
+              .p16()
+              .w40(context),
+        ),
         Expanded(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,53 +143,3 @@ class CatalogItem extends StatelessWidget {
   }
 }
 
-// Scaffold(
-//       appBar: AppBar(
-//         title: Text("Catalog App"),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
-//             ? GridView.builder(
-//                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                     crossAxisCount: 2,
-//                     mainAxisSpacing: 16,
-//                     crossAxisSpacing: 16),
-//                 itemBuilder: (context, index) {
-//                   final Item item = CatalogModel.items[index];
-//                   return Card(
-//                     clipBehavior: Clip.antiAlias,
-//                     shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(10)),
-//                     child: GridTile(
-//                         child: Image.network(item.image),
-//                         header: Container(
-//                           child: Text(
-//                             item.name,
-//                             style: TextStyle(color: Colors.white),
-//                           ),
-//                           padding: EdgeInsets.all(12),
-//                           decoration: BoxDecoration(
-//                             color: Colors.deepPurple,
-//                           ),
-//                         ),
-//                         footer: Container(
-//                           child: Text(
-//                             "\$${item.price}",
-//                             style: TextStyle(color: Colors.white),
-//                           ),
-//                           padding: EdgeInsets.all(12),
-//                           decoration: BoxDecoration(
-//                             color: Colors.black,
-//                           ),
-//                         )),
-//                   );
-//                 },
-//                 itemCount: CatalogModel.items.length,
-//               )
-//             : Center(
-//                 child: CircularProgressIndicator(),
-//               ),
-//       ),
-//       drawer: MyDrawer(),
-//     );
