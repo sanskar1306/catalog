@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application/pages/detail.dart';
+import 'package:flutter_application/utils/routes.dart';
 import 'package:flutter_application/widgets/drawer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -28,7 +30,6 @@ class _HomePageState extends State<HomePage> {
     var catalogJson = await rootBundle.loadString("assets/files/catalog.json");
     var decodedData = jsonDecode(catalogJson);
     var productsData = decodedData["products"];
-    
 
     CatalogModel.items = List.from(productsData)
         .map<Item>((item) => Item.fromMap(item))
@@ -38,24 +39,30 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.creamColor,
-      drawer: MyDrawer(),
-        body: SafeArea(
-      child: Container(
-        padding: Vx.m32,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CatalogHeader(),
-            if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
-              CatalogList().py16().expand()
-            else
-            CircularProgressIndicator().centered().expand()
-              
-          ],
+        backgroundColor: MyTheme.creamColor,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, MyRoutes.cartRoute);
+          },
+          backgroundColor: MyTheme.darkBluishColor,
+          child: Icon(CupertinoIcons.cart),
         ),
-      ),
-    ));
+        drawer: MyDrawer(),
+        body: SafeArea(
+          child: Container(
+            padding: Vx.m32,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CatalogHeader(),
+                if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
+                  CatalogList().py16().expand()
+                else
+                  CircularProgressIndicator().centered().expand()
+              ],
+            ),
+          ),
+        ));
   }
 }
 
@@ -84,9 +91,12 @@ class CatalogList extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         final catalog = CatalogModel.items[index];
-        return InkWell(onTap: () =>
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage(catalog: catalog))),
-          child: CatalogItem(catalog: catalog));
+        return InkWell(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DetailPage(catalog: catalog))),
+            child: CatalogItem(catalog: catalog));
       },
     );
   }
@@ -106,7 +116,6 @@ class CatalogItem extends StatelessWidget {
         child: Row(
       children: [
         Hero(
-           
           tag: Key(catalog.id.toString()),
           child: Image.network(catalog.image)
               .box
@@ -128,12 +137,14 @@ class CatalogItem extends StatelessWidget {
             ButtonBar(
               buttonPadding: EdgeInsets.symmetric(horizontal: 8),
               alignment: MainAxisAlignment.spaceBetween,
-              children: ["\$${catalog.price}".text.xl.bold.make(),
-              ElevatedButton(
-                style:ButtonStyle(
-                  backgroundColor:MaterialStateProperty.all(MyTheme.darkBluishColor)
-                  ),
-                onPressed: (){},child:"Buy".text.make())
+              children: [
+                "\$${catalog.price}".text.xl.bold.make(),
+                ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(MyTheme.darkBluishColor)),
+                    onPressed: () {},
+                    child: "Buy".text.make())
               ],
             )
           ],
@@ -142,4 +153,3 @@ class CatalogItem extends StatelessWidget {
     )).white.rounded.square(150).make().py8();
   }
 }
-
