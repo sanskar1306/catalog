@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/utils/routes.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:velocity_x/velocity_x.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
 
@@ -32,14 +32,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: Colors.white,
+        color: context.canvasColor,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/login_im.png",
+                  "assets/images/undraw_hey_email_liaa.png",
                   fit: BoxFit.cover,
                 ),
                 SizedBox(height: 20),
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
                 Material(
-                  color: changeButton ? Colors.green : Colors.deepPurple,
+                  color: changeButton ? Colors.green : context.theme.buttonColor,
                   borderRadius: BorderRadius.circular(changeButton ? 20 : 5),
                   child: InkWell(
                     splashColor: Colors.lightGreen,

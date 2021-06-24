@@ -1,15 +1,15 @@
-import 'dart:convert';
+  import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_application/pages/detail.dart';
-import 'package:flutter_application/utils/routes.dart';
-import 'package:flutter_application/widgets/drawer.dart';
-import 'package:velocity_x/velocity_x.dart';
+  import 'package:flutter/cupertino.dart';
+  import 'package:flutter/material.dart';
+  import 'package:flutter/services.dart';
+  import 'package:flutter_application/pages/detail.dart';
+  import 'package:flutter_application/utils/routes.dart';
+  import 'package:flutter_application/widgets/drawer.dart';
+  import 'package:velocity_x/velocity_x.dart';
 
-import 'package:flutter_application/models/catalog.dart';
-import 'package:flutter_application/widgets/themes.dart';
+  import 'package:flutter_application/models/catalog.dart';
+  import 'package:flutter_application/widgets/themes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -39,13 +39,13 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: MyTheme.creamColor,
+        backgroundColor: context.canvasColor,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, MyRoutes.cartRoute);
           },
-          backgroundColor: MyTheme.darkBluishColor,
-          child: Icon(CupertinoIcons.cart),
+          backgroundColor: context.theme.buttonColor,
+          child: Icon(CupertinoIcons.cart,color:Colors.white),
         ),
         drawer: MyDrawer(),
         body: SafeArea(
@@ -74,7 +74,7 @@ class CatalogHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        "Gadgets India".text.xl5.bold.color(MyTheme.darkBluishColor).make(),
+        "Gadgets India".text.xl5.bold.color(context.theme.accentColor).make(),
         "Trending products".text.xl2.make()
       ],
     );
@@ -121,7 +121,7 @@ class CatalogItem extends StatelessWidget {
               .box
               .p8
               .rounded
-              .color(MyTheme.creamColor)
+              .color(context.canvasColor)
               .make()
               .p16()
               .w40(context),
@@ -131,7 +131,7 @@ class CatalogItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            catalog.name.text.lg.color(MyTheme.darkBluishColor).bold.make(),
+            catalog.name.text.lg.color(context.accentColor).bold.make(),
             catalog.desc.text.textStyle(context.captionStyle).make(),
             SizedBox(height: 10),
             ButtonBar(
@@ -142,7 +142,7 @@ class CatalogItem extends StatelessWidget {
                 ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(MyTheme.darkBluishColor)),
+                            MaterialStateProperty.all(context.theme.buttonColor)),
                     onPressed: () {},
                     child: "Buy".text.make())
               ],
@@ -150,6 +150,6 @@ class CatalogItem extends StatelessWidget {
           ],
         )),
       ],
-    )).white.rounded.square(150).make().py8();
+    )).color(context.cardColor).rounded.square(150).make().py8();
   }
 }

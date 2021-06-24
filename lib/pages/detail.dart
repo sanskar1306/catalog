@@ -14,9 +14,9 @@ class DetailPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
         ),
-        backgroundColor: MyTheme.creamColor,
+        backgroundColor: context.canvasColor,
         bottomNavigationBar: Container(
-          color: Colors.white,
+          color: context.cardColor,
           child: ButtonBar(
             buttonPadding: EdgeInsets.symmetric(horizontal: 8),
             alignment: MainAxisAlignment.spaceBetween,
@@ -25,10 +25,10 @@ class DetailPage extends StatelessWidget {
               ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              MyTheme.darkBluishColor)),
+                              context.theme.buttonColor)),
                       onPressed: () {},
                       child: "Add to Cart".text.make())
-                  .wh(100, 50)
+                  .wh(120, 40)
             ],
           ),
         ),
@@ -46,12 +46,12 @@ class DetailPage extends StatelessWidget {
                 edge: VxEdge.TOP,
                 arcType: VxArcType.CONVEY,
                 child: Container(
-                    color: Colors.white,
+                    color: context.cardColor,
                     width: context.screenWidth,
                     child: Column(
                       children: [
                         catalog.name.text.xl4
-                            .color(MyTheme.darkBluishColor)
+                            .color(context.accentColor)
                             .bold
                             .make(),
                         catalog.desc.text.xl
@@ -59,10 +59,10 @@ class DetailPage extends StatelessWidget {
                             .make(),
                         "Stately wandering wide was tempest this fantastic flung lenore. That was louder fiend sent a. Scarcely still the not some living napping and, stillness fact me his ah radiant it so soul stronger. Enchanted is grim shore burning mortals startled."
                             .text
-                            .lg
+                            .medium
                             .textStyle(context.captionStyle)
                             .make()
-                            .p32()
+                            .p16()
                       ],
                     ).py64()),
               ))
