@@ -1,15 +1,17 @@
-  import 'dart:convert';
+import 'dart:convert';
 
-  import 'package:flutter/cupertino.dart';
-  import 'package:flutter/material.dart';
-  import 'package:flutter/services.dart';
-  import 'package:flutter_application/pages/detail.dart';
-  import 'package:flutter_application/utils/routes.dart';
-  import 'package:flutter_application/widgets/drawer.dart';
-  import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_application/widgets/addtocart.dart';
+import 'package:velocity_x/velocity_x.dart';
 
-  import 'package:flutter_application/models/catalog.dart';
-  import 'package:flutter_application/widgets/themes.dart';
+import 'package:flutter_application/models/cart.dart';
+import 'package:flutter_application/models/catalog.dart';
+import 'package:flutter_application/pages/detail.dart';
+import 'package:flutter_application/utils/routes.dart';
+import 'package:flutter_application/widgets/drawer.dart';
+import 'package:flutter_application/widgets/themes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -45,12 +47,12 @@ class _HomePageState extends State<HomePage> {
             Navigator.pushNamed(context, MyRoutes.cartRoute);
           },
           backgroundColor: context.theme.buttonColor,
-          child: Icon(CupertinoIcons.cart,color:Colors.white),
+          child: Icon(CupertinoIcons.cart, color: Colors.white),
         ),
         drawer: MyDrawer(),
         body: SafeArea(
           child: Container(
-            padding: Vx.m32,
+            padding: Vx.m20,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -139,12 +141,7 @@ class CatalogItem extends StatelessWidget {
               alignment: MainAxisAlignment.spaceBetween,
               children: [
                 "\$${catalog.price}".text.xl.bold.make(),
-                ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(context.theme.buttonColor)),
-                    onPressed: () {},
-                    child: "Buy".text.make())
+                Addtocart(catalog: catalog)
               ],
             )
           ],
@@ -153,3 +150,4 @@ class CatalogItem extends StatelessWidget {
     )).color(context.cardColor).rounded.square(150).make().py8();
   }
 }
+
